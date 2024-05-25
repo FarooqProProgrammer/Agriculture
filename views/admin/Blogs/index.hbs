@@ -17,21 +17,22 @@
                                     <div class="mb-3">
                                         <label for="metaTitle" class="form-label">Meta Title</label>
                                         <input type="text" class="form-control" id="metaTitle" name="MetaTitle"
-                                            placeholder="Enter Your Meta Title">
+                                            placeholder="Enter Your Meta Title" value="{{blogsMeta.MetaTitle}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="metaDescription" class="form-label">Meta Description</label>
                                         <input type="text" class="form-control" id="metaDescription"
-                                            name="MetaDescription" placeholder="Enter Your Meta Description">
+                                            name="MetaDescription" value="{{blogsMeta.MetaDescription}}"
+                                            placeholder="Enter Your Meta Description">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="canonicalTag" class="form-label">Canonical Tag</label>
                                         <input type="text" class="form-control" id="canonicalTag" name="CanonicalTag"
-                                            placeholder="Enter Your Canonical Tag">
+                                            placeholder="Enter Your Canonical Tag" value="{{blogsMeta.CanonicalTag}}">
                                     </div>
                                 </div>
                                 <input type="hidden" name="uniqueId" value="blog-page">
@@ -47,35 +48,13 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Accordion Item #2
+                            Blogs
                         </button>
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until
-                            the collapse plugin adds the appropriate classes that we use to style each element. These
-                            classes control the overall appearance, as well as the showing and hiding via CSS
-                            transitions. You can modify any of this with custom CSS or overriding our default variables.
-                            It's also worth noting that just about any HTML can go within the
-                            <code>.accordion-body</code>, though the transition does limit overflow.
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            Accordion Item #3
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
-                            collapse plugin adds the appropriate classes that we use to style each element. These
-                            classes control the overall appearance, as well as the showing and hiding via CSS
-                            transitions. You can modify any of this with custom CSS or overriding our default variables.
-                            It's also worth noting that just about any HTML can go within the
-                            <code>.accordion-body</code>, though the transition does limit overflow.
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#addBlog">Add Blog</button>
                         </div>
                     </div>
                 </div>
@@ -83,3 +62,79 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="addBlog" tabindex="-1" aria-labelledby="addBlog" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addBlog">Add Blog</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Blog Title</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1"
+                                placeholder="Enter Blog Title">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">Blog Date</label>
+                            <input type="month" class="form-control" id="exampleFormControlInput1"
+                                placeholder="Enter Blog Title">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div id="editor">
+                            <p>Hello World!</p>
+                            <p>Some initial <strong>bold</strong> text</p>
+                            <p><br /></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+        [{ 'direction': 'rtl' }],                         // text direction
+
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['clean'] ,
+                                                // remove formatting button
+    ];
+
+    const quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+          toolbar: toolbarOptions,
+          imageCompressor: {
+            quality: 0.9,
+            maxWidth: 1000, // default
+            maxHeight: 1000, // default
+            imageType: 'image/jpeg'
+          },
+        }
+    });
+</script>
