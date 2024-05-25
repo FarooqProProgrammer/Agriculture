@@ -1,5 +1,11 @@
 var express = require('express');
+const csurf = require('csurf');
+
 var router = express.Router();
+
+
+const csrfProtection = csurf({ cookie: true });
+
 
 
 router.get('/', function(req, res, next) {
@@ -49,6 +55,19 @@ router.get('/shop', function(req, res, next) {
 router.get('/shop-single', function(req, res, next) {
   res.render('shop-single', { title: 'Express' });
 });
+
+
+router.get('/admin', function(req, res, next) {
+  res.render('admin/index', { title: 'Express' ,layout:'admin'});
+});
+
+
+router.get('/admin-blog',csrfProtection, function(req, res, next) {
+  res.render('admin/Blogs/index', { title: 'Express' ,layout:'admin'});
+});
+
+
+
 
 router.get('*', function(req, res, next) {
   res.render('404', { title: 'Express' });
